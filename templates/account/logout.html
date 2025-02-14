@@ -1,0 +1,46 @@
+{% extends "account/base_manage.html" %}
+{% load allauth i18n %}
+{% block head_title %}
+    {% trans "Sign Out" %}
+{% endblock head_title %}
+{% block content %}
+    {% url 'account_logout' as action_url %}
+<button style="display: none;" type="button" id="logout_id" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{{action_url}}" method="post" >
+              {% element p %}
+              {% trans 'Are you sure you want to sign out?' %}
+          {% endelement %}
+                {% csrf_token %}
+                {{ redirect_field }}
+                <div class="">
+        <button type="submit" class="btn btn-primary">Sign Out</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+{% endblock content %}
+
+{% block js  %}
+    <script>
+      window.onload=function(){
+       
+        let elt=document.getElementById("logout_id")
+
+        elt.click()
+      }
+    </script>
+  {% endblock  %}
